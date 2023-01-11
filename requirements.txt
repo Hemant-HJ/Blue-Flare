@@ -4,4 +4,4 @@ pymongo[srv]
 dnspython
 aiohttp
 jishaku
-dotenv
+python-dotenv
