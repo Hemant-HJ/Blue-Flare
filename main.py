@@ -9,7 +9,9 @@ import contextlib
 import asyncio
 
 cog_extension = [
-    'jishaku'
+    'jishaku',
+    'cogs.wtp',
+    'cogs.error'
 ]
 
 class BlueFlare(commands.Bot):
@@ -36,6 +38,7 @@ class BlueFlare(commands.Bot):
         print(f"Logged in {self.user.name} (ID {self.user.id})\nVersion {discord.__version__}")
 
     async def setup_hook(self):
+        self.session = aiohttp.ClientSession()
         for cog in cog_extension:
             await self.load_extension(cog)
             """
