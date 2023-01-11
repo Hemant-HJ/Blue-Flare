@@ -9,17 +9,7 @@ import contextlib
 import asyncio
 
 cog_extension = [
-    'jishaku',
-    'cogs.mongo',
-    'cogs.donation',
-    'cogs.error',
-    'cogs.misc',
-    'cogs.owner',
-    'cogs.username', 
-    'cogs.battle', 
-    'cogs.chat',
-    'cogs.wtp',
-    'cogs.leaderboard'
+    'jishaku'
 ]
 
 class BlueFlare(commands.Bot):
@@ -29,7 +19,8 @@ class BlueFlare(commands.Bot):
             "bf",
             "BF",
             "Bf",
-            "bF"
+            "bF", 
+            "!"
           ), 
           intents = discord.Intents.all(), 
           strip_after_prefix = True,
