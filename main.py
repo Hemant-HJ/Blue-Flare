@@ -11,7 +11,10 @@ import asyncio
 cog_extension = [
     'jishaku',
     'cogs.wtp',
-    'cogs.error'
+    'cogs.error',
+    'cogs.mongo',
+    'cogs.admin', 
+    'cogs.owner'
 ]
 
 class BlueFlare(commands.Bot):
@@ -39,6 +42,7 @@ class BlueFlare(commands.Bot):
 
     async def setup_hook(self):
         self.session = aiohttp.ClientSession()
+        self.lcog = cog_extension
         for cog in cog_extension:
             await self.load_extension(cog)
             """
