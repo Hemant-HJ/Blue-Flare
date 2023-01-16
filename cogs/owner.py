@@ -33,7 +33,7 @@ class Owner(commands.Cog):
     @owner.command(aliases = ('re',))
     async def remove_ed(self, ctx, user:discord.Member = None):
         if not user:
-            return await ctx.reply()
+            return await ctx.reply('Please mention someone.')
         data = self.bot.mongo.setting.find_one({'_id': 1})
         if data:
             if user.id not in data['editors']:

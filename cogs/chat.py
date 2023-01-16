@@ -46,6 +46,7 @@ class ChatButton(discord.ui.View):
         return True
 
 class Chat(commands.Cog):
+    """Used to interact with the chat leaderboard winners in the database."""
     def __init__(self, bot):
         self.bot = bot
 

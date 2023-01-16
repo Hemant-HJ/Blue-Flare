@@ -8,7 +8,7 @@ class DataStructure:
     mainstr = {
         'username': 'Not Set',
         'win': 0,
-        'lost': 0,
+        'lose': 0,
         'draw': 0,
         'chat': 0,
         'donation': 0

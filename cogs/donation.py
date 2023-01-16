@@ -46,6 +46,7 @@ class DonationButton(discord.ui.View):
         return True
 
 class Donation(commands.Cog):
+    """Used to interact with the donation in the database."""
     def __init__(self, bot):
         self.bot = bot
 

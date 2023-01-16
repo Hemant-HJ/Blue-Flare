@@ -3,7 +3,7 @@ from discord.ext import commands
 
 from utility import checks, embed
 
-class Button(discord.ui.View):
+class UsernameButton(discord.ui.View):
     def __init__(self, ctx, user, username, mode, embed):
         super().__init__(timeout = 240)
         self.ctx = ctx
@@ -19,7 +19,7 @@ class Button(discord.ui.View):
             if data:
                 data['username'] = self.username
             else:
-                data = self.ctx.bot.mongo.mongo.datastructure
+                data = self.ctx.bot.mongo.mainstr
                 data['username'] = self.username
             await self.ctx.bot.mongo.update(self.user.id, data)
             self.embed.title = 'Successful Data Update'
@@ -50,6 +50,7 @@ class Button(discord.ui.View):
         return True
 
 class Username(commands.Cog):
+    """Use this to interact with the username in the database."""
     def __init__(self, bot):
         self.bot = bot
 

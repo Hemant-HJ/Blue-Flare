@@ -6,8 +6,10 @@ import discord
 from discord.ext import commands 
 
 class WTP(commands.Cog):
+    """Used to play Who's That Pokemon."""
     def __init__(self, bot):
         self.bot = bot
+        self.unanswered = 0
 
     async def get_img(self):
         poke_id = random.randint(1, 900)
@@ -22,6 +24,7 @@ class WTP(commands.Cog):
 
     @commands.command()
     async def wtp(self, ctx, time: int = 1):
+        """Command that allow you to start a Who's That Pokemon game."""
         for times in range(time):
             imgs = await self.get_img()
 
@@ -66,7 +69,7 @@ class WTP(commands.Cog):
                             color = discord.Color.red()
                         )
                         return await ctx.send(embed = e)
-                    elif time + 1 == number:
+                    elif time + 1 == times:
                         return
                     else:
                         continue
@@ -80,7 +83,7 @@ class WTP(commands.Cog):
                 
                 if attempt == 3:
                     e = discord.Embed(
-                        title = 'You got it right!!' if right_ans else 'You were not able to guess the right answer.',
+                        title = f'{guess.author.name} got it right!!' if right_ans else 'You were not able to guess the right answer.',
                         description = f"It was **{english_name}**",
                         color = discord.Color.green() if right_ans else discord.Color.red(),
                         timestamp = discord.utils.utcnow()

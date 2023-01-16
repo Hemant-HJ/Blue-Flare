@@ -47,6 +47,7 @@ class BattleButton(discord.ui.View):
         return True
 
 class Battle(commands.Cog):
+    """Used to interact with the battle values. in the database."""
     def __init__(self, bot):
         self.bot = bot
 

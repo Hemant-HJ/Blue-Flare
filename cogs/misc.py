@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 
 class Misc(commands.Cog):
+    """Cog used for small purposes."""
     def __init__(self, bot):
         self.bot = bot
 

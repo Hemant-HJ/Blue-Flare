@@ -6,12 +6,14 @@ from discord.ext import commands
 from utility import checks
 
 class Admin(commands.Cog):
+    """Strictly for Bot Admins or Editors."""
     def __init__(self, bot):
         self.bot = bot
 
     @checks.is_editor()
     @commands.group(invoke_without_command = True, aliases = ('ad',))
     async def admin(self, ctx):
+        """Can only be used by existing editors."""
         e = discord.Embed(
             title = 'Available commands.',
             description = 'set, list',
@@ -21,6 +23,12 @@ class Admin(commands.Cog):
 
     @admin.command()
     async def set(self, ctx, user:discord.Member = None,key:str = None, value:typing.Union[str, int] = None):
+        """Subcommand used to set a value to any key of the user.
+        Syntax : bf admin set <user> <key> <value>
+            user: Any member of the server.
+            key: Any in the List [username, win, lose, draw, chat]
+            value: Any new valid value.
+        """
         data = await self.bot.mongo.update(user.id, {key:value})
         if data:
             e = discord.embed(
@@ -35,6 +43,7 @@ class Admin(commands.Cog):
 
     @admin.command()
     async def list(self, ctx):
+        """List all the editors."""
         user = self.bot.mongo.setting.find_one({'_id': 1})['editors']
         if user:
             user = [f'<@{a}>' for a in user]
