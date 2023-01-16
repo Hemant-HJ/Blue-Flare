@@ -5,6 +5,9 @@ class Owner(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    async def cog_check(self, ctx) -> bool:
+        return await self.bot.is_owner(ctx.author)
+
     @commands.group(aliases = ('ow','o', 'dev'))
     async def owner(self, ctx):
         pass

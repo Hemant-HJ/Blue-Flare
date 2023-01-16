@@ -14,7 +14,8 @@ cog_extension = [
     'cogs.error',
     'cogs.mongo',
     'cogs.admin', 
-    'cogs.owner'
+    'cogs.owner',
+    'cogs.username'
 ]
 
 class BlueFlare(commands.Bot):
@@ -43,6 +44,8 @@ class BlueFlare(commands.Bot):
     async def setup_hook(self):
         self.session = aiohttp.ClientSession()
         self.lcog = cog_extension
+        self.tree = commands.app_commands.CommandTree(self)
+
         for cog in cog_extension:
             await self.load_extension(cog)
             """
