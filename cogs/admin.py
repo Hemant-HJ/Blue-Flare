@@ -31,7 +31,7 @@ class Admin(commands.Cog):
         """
         data = await self.bot.mongo.update(user.id, {key:value})
         if data:
-            e = discord.embed(
+            e = discord.Embed(
                 title = f'User Update {user.name}',
                 description = f"Changed following value: \n{key}: {value}",
                 color = discord.Color.green(),
