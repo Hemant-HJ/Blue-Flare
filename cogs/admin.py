@@ -29,6 +29,8 @@ class Admin(commands.Cog):
             key: Any in the List [username, win, lose, draw, chat]
             value: Any new valid value.
         """
+        if not user or not key or not value:
+            return await ctx.reply('Just check the help command and use the right one.')
         data = await self.bot.mongo.update(user.id, {key:value})
         if data:
             e = discord.Embed(

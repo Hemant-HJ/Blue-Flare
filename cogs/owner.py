@@ -36,14 +36,14 @@ class Owner(commands.Cog):
             return await ctx.reply('Please mention someone.')
         data = self.bot.mongo.setting.find_one({'_id': 1})
         if data:
-            if user.id not in data['editors']:
-                new_data = data['editors'].remove(user.id)
-                self.bot.mongo.setting.update_one({'_id': 1}, {'$set': new_data})
+            if user.id in data['editors']:
+                data['editors'].remove(user.id)
+                self.bot.mongo.setting.update_one({'_id': 1}, {'$set': data})
             else:
                 return await ctx.send('User is not in list.')
         else:
            return
-        await ctx.send('<@{user.id}> removed as admin of database.')
+        await ctx.send(f'<@{user.id}> removed as admin of database.')
 
     @owner.command(aliases = ('r',))
     async def reload(self, ctx, cog:str = None):
