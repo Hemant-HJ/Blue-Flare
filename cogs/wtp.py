@@ -10,6 +10,7 @@ class WTP(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.unanswered = 0
+        self.channel = []
 
     async def get_img(self):
         poke_id = random.randint(1, 900)
@@ -25,7 +26,10 @@ class WTP(commands.Cog):
     @commands.command()
     async def wtp(self, ctx, time: int = 1):
         """Command that allow you to start a Who's That Pokemon game."""
+        if ctx.channel.id in self.channel:
+            return await ctx.send('This command is already running in this channel.')
         for times in range(time):
+            self.channel.append(ctx.channel.id)
             imgs = await self.get_img()
 
             e = discord.Embed(
@@ -54,7 +58,7 @@ class WTP(commands.Cog):
                     attempt = 3
                     e = discord.Embed(
                         title = 'You were not able to guess the right answer.',
-                        description = f"It was **{english_name}**",
+                        description = f"It was **{english_name}**\nRemaining:{time - times - 1}",
                         color = discord.Color.red(),
                         timestamp = discord.utils.utcnow()
                     )
@@ -68,6 +72,7 @@ class WTP(commands.Cog):
                             timestamp = discord.utils.utcnow(),
                             color = discord.Color.red()
                         )
+                        self.channel.remove(ctx.channel.id)
                         return await ctx.send(embed = e)
                     elif time + 1 == times:
                         return
@@ -84,7 +89,7 @@ class WTP(commands.Cog):
                 if attempt == 3:
                     e = discord.Embed(
                         title = f'{guess.author.name} got it right!!' if right_ans else 'You were not able to guess the right answer.',
-                        description = f"It was **{english_name}**",
+                        description = f"It was **{english_name}**\nRemaining:{time - times - 1}",
                         color = discord.Color.green() if right_ans else discord.Color.red(),
                         timestamp = discord.utils.utcnow()
                         )
@@ -92,6 +97,8 @@ class WTP(commands.Cog):
                     await ctx.send(embed = e)
 
             await asyncio.sleep(2)
+        self.channel.remove(ctx.channel.id)
+        self.unanswered = 0
 
 
 async def setup(bot):
