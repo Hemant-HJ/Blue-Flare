@@ -27,9 +27,11 @@ class WTP(commands.Cog):
     async def wtp(self, ctx, time: int = 1):
         """Command that allow you to start a Who's That Pokemon game."""
         if ctx.channel.id in self.channel:
+           
             return await ctx.send('This command is already running in this channel.')
+        self.channel.append(ctx.channel.id)
         for times in range(time):
-            self.channel.append(ctx.channel.id)
+            
             imgs = await self.get_img()
 
             e = discord.Embed(
@@ -73,7 +75,10 @@ class WTP(commands.Cog):
                             color = discord.Color.red()
                         )
                         self.channel.remove(ctx.channel.id)
+                        self.unanswered = 0
+
                         return await ctx.send(embed = e)
+                        
                     elif time + 1 == times:
                         return
                     else:
@@ -82,6 +87,7 @@ class WTP(commands.Cog):
                 if guess.content.lower() in eligible_names:
                     attempt = 3
                     right_ans = True
+                    self.unanswered = 0
                 else:
                     attempt += 1
                     right_ans = False
