@@ -40,7 +40,7 @@ class WTP(commands.Cog):
 
             e = discord.Embed(
                 title = 'Guess the Pokemon.',
-                description = f'{data["que"]}',
+                description = f'{data["que"].lower().capitalize()}',
                 color = discord.Color.red(),
                 timestamp = discord.utils.utcnow()
         )
