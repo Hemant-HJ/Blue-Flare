@@ -50,16 +50,18 @@ class BlueFlare(commands.Bot):
         self.lcog = cog_extension
 
         for cog in cog_extension:
-            await self.load_extension(cog)
-            """
+            # await self.load_extension(cog)
             try:
                 await self.load_extension(cog)
             except:
-                print(f'Failed to load extension: {cog}')"""
+                print(f'Failed to load extension: {cog}')
 
         async with aiohttp.ClientSession() as session:
             webhook = discord.Webhook.from_url(config.WEBHOOK, session=session)
             await webhook.send('Blue Flare Online.', username = 'Blue Flare')
+
+        async with self.session.get('https://raw.githubusercontent.com/Hemant-HJ/pokemon/main/data/query.json') as response:
+            self.trivia = await response.json(content_type = None)
 
     async def on_message(self, message):
       if message.author.bot:
@@ -82,6 +84,9 @@ class BlueFlare(commands.Bot):
     
     async def start(self):
         await super().start(config.TOKEN, reconnect = True)
+    
+    async def close(self):
+        await self.session.close()
 
     @property
     def owner(self) -> discord.User:

@@ -12,6 +12,8 @@ class Error(commands.Cog):
     async def on_command_error(self, ctx, error):
         if isinstance(error, commands.CommandNotFound):
             pass
+        elif isinstance(error, commands.MemberNotFound):
+            await ctx.send("Couldn't find the member specified.")
         elif isinstance(error, commands.CheckFailure):
             e = discord.Embed(
                 title = 'Error Occured',
