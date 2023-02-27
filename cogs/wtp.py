@@ -65,7 +65,7 @@ class WTP(commands.Cog):
                     self.un_trivia += 1
                     await ctx.send(embed = e)
 
-                    if self.unanswered == 3:
+                    if self.un_trivia == 3:
                         e = discord.Embed(
                             title = 'Game Stopped',
                             description = "Trivia game has been stopped because of 3 unanswered question you can restart it using the command.\n\n`bf wtp <count = 1>`",
