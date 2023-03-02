@@ -66,7 +66,7 @@ class WTP(commands.Cog):
                     attempt = 3
                     e = discord.Embed(
                         title = 'You were not able to guess the right answer.',
-                        description = f"It was **{data['name']}**\nRemaining:{time - times - 1}",
+                        description = f"It was **{data['name']}**\nRemaining: {time - times - 1}",
                         color = discord.Color.red(),
                         timestamp = discord.utils.utcnow()
                     )
@@ -91,7 +91,7 @@ class WTP(commands.Cog):
                     else:
                         continue
                 
-                if guess.content.lower() in data['name']:
+                if guess.content.lower() == data['name'].lower():
                     attempt = 3
                     right_ans = True
                     self.un_trivia = 0
@@ -101,10 +101,10 @@ class WTP(commands.Cog):
                 
                 if attempt == 3:
                     if right_ans:
-                        self.tr_answered[guess.author.id] = +1
+                        self.tr_answered[guess.author.id] = self.tr_answered.get(guess.author.id, 0) + 1
                     e = discord.Embed(
                         title = f'{guess.author.name} got it right!!' if right_ans else 'You were not able to guess the right answer.',
-                        description = f"It was **{data['name']}**\nRemaining:{time - times - 1}",
+                        description = f"It was **{data['name']}**\nRemaining: {time - times - 1}",
                         color = discord.Color.green() if right_ans else discord.Color.red(),
                         timestamp = discord.utils.utcnow()
                         )
@@ -119,7 +119,7 @@ class WTP(commands.Cog):
         self.un_trivia = 0
         if len(self.tr_answered) == 0:
             return
-        data = [f'<@{a}>:{b}' for a, b in self.tr_answered.items()]
+        data = [f'<@{a}>: {b}' for a, b in self.tr_answered.items()]
         user = '\n'.join(data)
         e = discord.Embed(
             title = 'Leaderboard',
@@ -168,7 +168,7 @@ class WTP(commands.Cog):
                     attempt = 3
                     e = discord.Embed(
                         title = 'You were not able to guess the right answer.',
-                        description = f"It was **{english_name}**\nRemaining:{time - times - 1}",
+                        description = f"It was **{english_name}**\nRemaining: {time - times - 1}",
                         color = discord.Color.red(),
                         timestamp = discord.utils.utcnow()
                     )
@@ -202,10 +202,10 @@ class WTP(commands.Cog):
                 
                 if attempt == 3:
                     if right_ans:
-                        self.answered[guess.author.id] = +1
+                        self.answered[guess.author.id] = self.answered.get(guess.author.id, 0) + 1
                     e = discord.Embed(
                         title = f'{guess.author.name} got it right!!' if right_ans else 'You were not able to guess the right answer.',
-                        description = f"It was **{english_name}**\nRemaining:{time - times - 1}",
+                        description = f"It was **{english_name}**\nRemaining: {time - times - 1}",
                         color = discord.Color.green() if right_ans else discord.Color.red(),
                         timestamp = discord.utils.utcnow()
                         )
@@ -220,7 +220,7 @@ class WTP(commands.Cog):
         self.unanswered = 0
         if len(self.answered) == 0:
             return
-        data = [f'<@{a}>:{b}' for a, b in self.answered.items()]
+        data = [f'<@{a}>: {b}' for a, b in self.answered.items()]
         user = '\n'.join(data)
         e = discord.Embed(
             title = 'Leaderboard',
