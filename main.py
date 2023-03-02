@@ -86,6 +86,7 @@ class BlueFlare(commands.Bot):
         await super().start(config.TOKEN, reconnect = True)
     
     async def close(self):
+        await super().close()
         await self.session.close()
 
     @property

@@ -12,7 +12,9 @@ class WTP(commands.Cog):
         self.unanswered = 0
         self.channel = []
         self.ch_trivia = []
-        self.un_trivia = 0 
+        self.un_trivia = 0
+        self.tr_answered = {}
+        self.answered = {}
 
     async def get_img(self):
         poke_id = random.randint(1, 900)
@@ -59,7 +61,7 @@ class WTP(commands.Cog):
             attempt = 0
             while attempt != 3:
                 try:
-                    guess = await ctx.bot.wait_for('message', timeout = 10, check = check)
+                    guess = await ctx.bot.wait_for('message', timeout = 20, check = check)
                 except asyncio.TimeoutError:
                     attempt = 3
                     e = discord.Embed(
@@ -98,6 +100,8 @@ class WTP(commands.Cog):
                     right_ans = False
                 
                 if attempt == 3:
+                    if right_ans:
+                        self.tr_answered[guess.author.id] = +1
                     e = discord.Embed(
                         title = f'{guess.author.name} got it right!!' if right_ans else 'You were not able to guess the right answer.',
                         description = f"It was **{data['name']}**\nRemaining:{time - times - 1}",
@@ -108,8 +112,24 @@ class WTP(commands.Cog):
                     await ctx.send(embed = e)
 
             await asyncio.sleep(2)
+
+    @trivia.after_invoke
+    async def send(self, ctx):
         self.ch_trivia.remove(ctx.channel.id)
         self.un_trivia = 0
+        if len(self.tr_answered) == 0:
+            return
+        data = [f'<@{a}>:{b}' for a, b in self.tr_answered.items()]
+        user = '\n'.join(data)
+        e = discord.Embed(
+            title = 'Leaderboard',
+            description = f"{user}",
+            color = discord.Color.blue(),
+            timestamp = discord.utils.utcnow()
+        )
+        self.tr_answered = {}
+
+        await ctx.send(embed = e)
 
     @commands.command()
     async def wtp(self, ctx, time: int = 1):
@@ -143,7 +163,7 @@ class WTP(commands.Cog):
             attempt = 0
             while attempt != 3:
                 try:
-                    guess = await ctx.bot.wait_for('message', timeout = 10, check = check)
+                    guess = await ctx.bot.wait_for('message', timeout = 15, check = check)
                 except asyncio.TimeoutError:
                     attempt = 3
                     e = discord.Embed(
@@ -181,6 +201,8 @@ class WTP(commands.Cog):
                     right_ans = False
                 
                 if attempt == 3:
+                    if right_ans:
+                        self.answered[guess.author.id] = +1
                     e = discord.Embed(
                         title = f'{guess.author.name} got it right!!' if right_ans else 'You were not able to guess the right answer.',
                         description = f"It was **{english_name}**\nRemaining:{time - times - 1}",
@@ -191,8 +213,23 @@ class WTP(commands.Cog):
                     await ctx.send(embed = e)
 
             await asyncio.sleep(2)
+        
+    @wtp.after_invoke
+    async def wtpsend(self, ctx):
         self.channel.remove(ctx.channel.id)
         self.unanswered = 0
+        if len(self.answered) == 0:
+            return
+        data = [f'<@{a}>:{b}' for a, b in self.answered.items()]
+        user = '\n'.join(data)
+        e = discord.Embed(
+            title = 'Leaderboard',
+            description = f"{user}",
+            color = discord.Color.blue(),
+            timestamp = discord.utils.utcnow()
+        )
+        self.answered = {}
+        await ctx.send(embed = e)
 
 async def setup(bot):
     await bot.add_cog(WTP(bot))
