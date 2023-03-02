@@ -37,13 +37,20 @@ class WTP(commands.Cog):
             
             id = await self.get_img()
             data = self.bot.trivia[str(id[2])]
+            
+            hint = ['_' if random.randint(1, 100) < 60 else a for a in data['name']]
 
             e = discord.Embed(
                 title = 'Guess the Pokemon.',
                 description = f'{data["que"].lower().capitalize()}',
                 color = discord.Color.red(),
                 timestamp = discord.utils.utcnow()
-        )
+            )
+            e.add_field(
+                name = 'Hint',
+                value = f"`{''.join(hint)}`",
+                inline = False
+            )
             msg = await ctx.send(embed = e)
 
             def check(msg):
