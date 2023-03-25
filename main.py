@@ -60,7 +60,7 @@ class BlueFlare(commands.Bot):
             webhook = discord.Webhook.from_url(config.WEBHOOK, session=session)
             await webhook.send('Blue Flare Online.', username = 'Blue Flare')
 
-        async with self.session.get('https://raw.githubusercontent.com/Hemant-HJ/pokemon/main/data/query.json') as response:
+        async with self.session.get('https://raw.githubusercontent.com/Hemant-HJ/pokemon/main/trivia/desc.json') as response:
             self.trivia = await response.json(content_type = None)
 
     async def on_message(self, message):

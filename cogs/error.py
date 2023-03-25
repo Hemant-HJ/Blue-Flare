@@ -26,6 +26,9 @@ class Error(commands.Cog):
                 color = discord.Color.red()
             )
             await ctx.send(embed = e)
+
+        elif isinstance(error, commands.MissingPermissions):
+            await ctx.send('Missing Permission!')
         else:
             print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
             traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)

@@ -34,6 +34,9 @@ class WTP(commands.Cog):
         if ctx.channel.id in self.ch_trivia:           
             return await ctx.send('This command is already running in this channel.')
 
+        if ctx.channel.id == 1088442703970304050:
+            return await ctx.send('Please you this command in <#1088446295401824256>')
+
         self.ch_trivia.append(ctx.channel.id)
         for times in range(time):
             
@@ -135,8 +138,11 @@ class WTP(commands.Cog):
     async def wtp(self, ctx, time: int = 1):
         """Command that allow you to start a Who's That Pokemon game."""
         if ctx.channel.id in self.channel:
-           
             return await ctx.send('This command is already running in this channel.')
+
+        if ctx.channel.id == 1088446295401824256:
+            return await ctx.send('Please you this command in <#1088442703970304050>')
+
         self.channel.append(ctx.channel.id)
         for times in range(time):
             
